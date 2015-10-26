@@ -5,7 +5,9 @@ public class DirectoryNode {
 	private DirectoryNode middle;
 	private DirectoryNode right;
 private boolean isFile=false;
-	public DirectoryNode() {
+	public DirectoryNode(String name, boolean isFile) {
+		this.setName(name);
+		this.isFile = isFile;
 	}
 
 	public void setName(String name) {
@@ -21,10 +23,6 @@ private boolean isFile=false;
 	public void setRight(DirectoryNode right) {
 		this.right = right;
 	}
-public void setIsFile(){
-	if(this.getLeft()==null&&this.middle==null&&this.right==null)this.isFile=false;
-this.isFile =true;
-}
 	public void setMiddle(DirectoryNode middle) {
 		this.middle = middle;
 	}
