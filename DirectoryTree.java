@@ -5,6 +5,7 @@ public class DirectoryTree {
 
 	public DirectoryTree() {
 		root = new DirectoryNode("root", false);
+		cursor = root;
 	}
 
 	public void resetCursor() {
@@ -12,17 +13,23 @@ public class DirectoryTree {
 	}
 
 	public DirectoryNode find(DirectoryNode node, String name) {
+		DirectoryNode a =null;
 		if (node.getName().equals(name))
 			return node;
-		else {
-			DirectoryNode a ;
-			a= find(node.getLeft(), name);
-			if(a==null)a= find(node.getMiddle(), name);
-			if(a==null)a= find(node.getRight(), name);
+		else {if(node.getLeft()!=null)
+			a = find(node.getLeft(), name);
+			if (a == null&&node.getMiddle()!=null)
+				a = find(node.getMiddle(), name);
+			if (a == null&&node.getRight()!=null)
+				a = find(node.getRight(), name);
 		}
-		return null;
+		return a;
 	}
-
+//public void find(String name){
+	//DirectoryNode a =null;
+	//a = find(a, name);
+	//System.out.println(this.findPath("", a));
+//}
 	public void changeDirectory(String name) throws NotADirectoryException {
 		cursor = find(this.root, name);
 		if (cursor == null) {
@@ -37,24 +44,28 @@ public class DirectoryTree {
 	}
 
 	public String findPath(String a, DirectoryNode node) {
+		String b =a;
 		if (node == cursor) {
-			return a += node.getName();
+			return a+node.getName();
 		} else {
 			if (node.getLeft() != null)
-				findPath(a + node.getName() + "/", node.getLeft());
-			if (node.getMiddle() != null)
-				a += findPath(a + node.getName() + "/", node.getMiddle());
-			if (node.getRight() != null)
-				a += findPath(a + node.getName() + "/", node.getRight());
+				a=findPath(a + node.getName() + "/", node.getLeft());
+			if (node.getMiddle() != null&&a.charAt(a.length()-1)=='/'){
+			a=b;
+				a = findPath(a + node.getName() + "/", node.getMiddle());
+			}		if (node.getRight() != null&&a.charAt(a.length()-1)=='/'){
+				a=b;
+				a = findPath(a + node.getName() + "/", node.getRight());}
 		}
-		return "not exsist";
+		return  a;
 	}
 
 	public String presentWorkingDirectory() {
-		DirectoryNode a;
-		a = root;
-		String b = "root";
-		return findPath(b, a);
+		String b = "";
+		if(cursor==root)return "root";
+		b=findPath(b,root);
+		if(b.charAt(b.length()-1)=='/') return "not exsist";
+		return b;
 	}
 
 	public String listDirectory() {
@@ -85,7 +96,7 @@ public class DirectoryTree {
 		if (name.contains(" ") || name.contains("/"))
 			throw new IllegalArgumentException();
 		try {
-			cursor.addChild(new DirectoryNode(name,false));
+			cursor.addChild(new DirectoryNode(name, false));
 		} catch (NotADirectoryException a) {
 			System.out.println("not a directory node");
 		}
@@ -96,7 +107,7 @@ public class DirectoryTree {
 		if (name.contains(" ") || name.contains("/"))
 			throw new IllegalArgumentException();
 		try {
-			cursor.addChild(new DirectoryNode(name,true));
+			cursor.addChild(new DirectoryNode(name, true));
 		} catch (NotADirectoryException a) {
 			System.out.println("not a directory node");
 		}

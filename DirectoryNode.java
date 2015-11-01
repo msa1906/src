@@ -49,14 +49,14 @@ public String toString(){
 	return (this.isFile==true?"-"+this.getName():"|-"+this.getName());
 }
 	public void addChild(DirectoryNode node) throws NotADirectoryException, FullDirectoryException {
-		if(node.isFile==true)throw new NotADirectoryException();
-		if (this.getLeft() != null)
+		if(this.isFile==true)throw new NotADirectoryException();
+		if (this.getLeft() == null)
 			this.setLeft(node);
 		else {
-			if (this.getMiddle() != null)
+			if (this.getMiddle() == null)
 				this.setMiddle(node);
 			else {
-				if (this.getRight() != null)
+				if (this.getRight() == null)
 					this.setRight(node);
 				else
 					throw new FullDirectoryException();
