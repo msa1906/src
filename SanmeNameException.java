@@ -6,8 +6,8 @@
  * @author Mingtong Wu e-mail: Mingtong.wu@stonybrook.edu Stony Brook
  *         ID:110033615
  **/
-public class NotADirectoryException extends Exception {
+public class SanmeNameException extends Exception {
 	public String toString() {
-		return "NotADirectoryException";
+		return "SanmeNameException";
 	}
 }
